@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  def self.find_or_create_by_omniauth(auth, token)
+  def self.find_or_create(auth, token)
     user = User.find_or_create_by(uid: auth[:user][:encodedId])
     user.age = auth[:user][:age]
     user.first_name = auth[:user][:firstName]

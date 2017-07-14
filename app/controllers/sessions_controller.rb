@@ -14,15 +14,13 @@ class SessionsController < ApplicationController
     end
 
     token = JSON.parse(response.body)["access_token"]
-    ## gets token back at this point. hooray!
 
     oauth_response = Faraday.get("https://api.fitbit.com/1/user/-/profile.json") do |req|
       req.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0UldYN1AiLCJhdWQiOiIyMjhIMlQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTAwNjIwODcyLCJpYXQiOjE1MDAwMzg1ODF9.vTWt-TAz1dO_IxOH_I_jQORYNwN1tjvSiJmPEiAxCHA'
     end
 
     auth = JSON.parse(oauth_response.body, symbolize_names: true)
-    User.find_or_create_by_omniauth(auth, token)
-    ##gets user profile and others scopes! fuck yeah!
+    User.find_or_create(auth, token)
   end
 
 end
