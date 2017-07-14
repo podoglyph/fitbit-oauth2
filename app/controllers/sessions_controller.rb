@@ -20,7 +20,8 @@ class SessionsController < ApplicationController
       req.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0UldYN1AiLCJhdWQiOiIyMjhIMlQiLCJpc3MiOiJGaXRiaXQiLCJ0eXAiOiJhY2Nlc3NfdG9rZW4iLCJzY29wZXMiOiJyc29jIHJzZXQgcmFjdCBybG9jIHJ3ZWkgcmhyIHJudXQgcnBybyByc2xlIiwiZXhwIjoxNTAwNjIwODcyLCJpYXQiOjE1MDAwMzg1ODF9.vTWt-TAz1dO_IxOH_I_jQORYNwN1tjvSiJmPEiAxCHA'
     end
 
-    auth = JSON.parse(oauth_response.body)
+    auth = JSON.parse(oauth_response.body, symbolize_names: true)
+    User.find_or_create_by_omniauth(auth, token)
     ##gets user profile and others scopes! fuck yeah!
   end
 
